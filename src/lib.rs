@@ -10,7 +10,7 @@ pub fn file_to_vec(filename: &str) -> io::Result<Vec<String>> {
     Ok(file_reader.lines().filter_map(io::Result::ok).collect())
 }
 
-pub fn string_to_int(input: &Vec<String>) -> Result<Vec<i32>, ParseIntError> {
+pub fn string_to_int(input: &[String]) -> Result<Vec<i32>, ParseIntError> {
     // Using an iterator, convert each string to an integer
     let numbers: Vec<i32> = input
         .iter()

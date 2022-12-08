@@ -20,8 +20,8 @@ fn main() {
 fn part_1(input: &Vec<String>) -> Result<i32, ParseIntError> {
     let mut score = 0;
     for line in input {
-        let (left, right) = split_line_at_middle(&line);
-        let overlap = find_overlapping_type(&left, &right);
+        let (left, right) = split_line_at_middle(line);
+        let overlap = find_overlapping_type(left, right);
         let priority = get_priority(overlap);
         score += priority;
     };
@@ -49,7 +49,7 @@ fn get_priority(overlap: char) -> i32 {
     priority as i32
 }
 
-fn part_2(input: &Vec<String>) -> Result<i32, ParseIntError> {
+fn part_2(input: &[String]) -> Result<i32, ParseIntError> {
     let iter = input.iter().zip(input.iter().skip(1)).zip(input.iter().skip(2));
     let mut score = 0;
     for ((line1, line2), line3) in iter.step_by(3) {
