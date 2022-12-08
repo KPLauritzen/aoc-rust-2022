@@ -1,9 +1,7 @@
 // https://adventofcode.com/2022/day/3
 
+use aoc_rust_2022::file_to_vec;
 use std::num::ParseIntError;
-use aoc_rust_2022::{file_to_vec};
-
-
 
 fn main() {
     let filename = "input/day03.txt";
@@ -13,9 +11,7 @@ fn main() {
 
     let part_2_result = part_2(&input).unwrap();
     println!("Part 2: {}", part_2_result);
-
 }
-
 
 fn part_1(input: &Vec<String>) -> Result<i32, ParseIntError> {
     let mut score = 0;
@@ -24,7 +20,7 @@ fn part_1(input: &Vec<String>) -> Result<i32, ParseIntError> {
         let overlap = find_overlapping_type(left, right);
         let priority = get_priority(overlap);
         score += priority;
-    };
+    }
     Ok(score)
 }
 
@@ -37,9 +33,9 @@ fn split_line_at_middle(line: &str) -> (&str, &str) {
 fn find_overlapping_type(left: &str, right: &str) -> char {
     for element in left.chars() {
         if right.contains(element) {
-            return element
+            return element;
         };
-    };
+    }
     panic!("Could not find any overlap");
 }
 
@@ -50,16 +46,19 @@ fn get_priority(overlap: char) -> i32 {
 }
 
 fn part_2(input: &[String]) -> Result<i32, ParseIntError> {
-    let iter = input.iter().zip(input.iter().skip(1)).zip(input.iter().skip(2));
+    let iter = input
+        .iter()
+        .zip(input.iter().skip(1))
+        .zip(input.iter().skip(2));
     let mut score = 0;
     for ((line1, line2), line3) in iter.step_by(3) {
         let overlap_1_2: String = line1.chars().filter(|x| line2.contains(*x)).collect();
         let overlap_1_2_3 = find_overlapping_type(&overlap_1_2, line3);
         let priority = get_priority(overlap_1_2_3);
-                score += priority;
-
-    };
-    Ok(score)}
+        score += priority;
+    }
+    Ok(score)
+}
 
 #[cfg(test)]
 mod tests {

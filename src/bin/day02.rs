@@ -1,7 +1,7 @@
 // https://adventofcode.com/2022/day/2
 
+use aoc_rust_2022::file_to_vec;
 use std::num::ParseIntError;
-use aoc_rust_2022::{file_to_vec};
 
 #[derive(PartialEq, Debug, Clone)]
 enum RPS {
@@ -19,27 +19,21 @@ enum Outcome {
 impl RPS {
     fn get_outcome_against(&self, other: RPS) -> Outcome {
         match self {
-            RPS::Rock => {
-                match other {
-                    RPS::Rock => Outcome::Draw,
-                    RPS::Paper => Outcome::Loss,
-                    RPS::Scissors => Outcome::Win,
-                }
-            }
-            RPS::Paper => {
-                match other {
-                    RPS::Rock => Outcome::Win,
-                    RPS::Paper => Outcome::Draw,
-                    RPS::Scissors => Outcome::Loss,
-                }
-            }
-            RPS::Scissors => {
-                match other {
-                    RPS::Rock => Outcome::Loss,
-                    RPS::Paper => Outcome::Win,
-                    RPS::Scissors => Outcome::Draw,
-                }
-            }
+            RPS::Rock => match other {
+                RPS::Rock => Outcome::Draw,
+                RPS::Paper => Outcome::Loss,
+                RPS::Scissors => Outcome::Win,
+            },
+            RPS::Paper => match other {
+                RPS::Rock => Outcome::Win,
+                RPS::Paper => Outcome::Draw,
+                RPS::Scissors => Outcome::Loss,
+            },
+            RPS::Scissors => match other {
+                RPS::Rock => Outcome::Loss,
+                RPS::Paper => Outcome::Win,
+                RPS::Scissors => Outcome::Draw,
+            },
         }
     }
 
@@ -60,14 +54,9 @@ impl RPS {
     }
 }
 
-
-
-
 fn match_score(rps: RPS, outcome: Outcome) -> i32 {
     (rps as i32) + (outcome as i32)
 }
-
-
 
 fn main() {
     let filename = "input/day02.txt";
@@ -77,7 +66,6 @@ fn main() {
 
     let part_2_result = part_2(&input).unwrap();
     println!("Part 2: {}", part_2_result);
-
 }
 
 fn parse_moves(input: &Vec<String>) -> (Vec<RPS>, Vec<RPS>) {
@@ -99,7 +87,6 @@ fn parse_moves(input: &Vec<String>) -> (Vec<RPS>, Vec<RPS>) {
 
             _ => todo!(),
         }
-
     }
     (opp_moves, my_moves)
 }
@@ -134,11 +121,9 @@ fn parse_moves_and_outcomes(input: &Vec<String>) -> (Vec<RPS>, Vec<Outcome>) {
 
             _ => todo!(),
         }
-
     }
     (opp_moves, outcomes)
 }
-
 
 fn part_2(input: &Vec<String>) -> Result<i32, ParseIntError> {
     let mut running_score = 0;
