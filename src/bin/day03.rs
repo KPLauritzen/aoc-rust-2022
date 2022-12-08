@@ -1,3 +1,5 @@
+// https://adventofcode.com/2022/day/3
+
 use std::num::ParseIntError;
 use aoc_rust_2022::{file_to_vec};
 
@@ -54,7 +56,7 @@ fn part_2(input: &Vec<String>) -> Result<i32, ParseIntError> {
         let overlap_1_2: String = line1.chars().filter(|x| line2.contains(*x)).collect();
         let overlap_1_2_3 = find_overlapping_type(&overlap_1_2, line3);
         let priority = get_priority(overlap_1_2_3);
-        score += priority;
+                score += priority;
 
     };
     Ok(score)}

@@ -1,8 +1,7 @@
-// https://adventofcode.com/2022/day/1
+// https://adventofcode.com/2022/day/2
 
 use std::num::ParseIntError;
 use aoc_rust_2022::{file_to_vec};
-use std::cmp::Ordering;
 
 #[derive(PartialEq, Debug, Clone)]
 enum RPS {
