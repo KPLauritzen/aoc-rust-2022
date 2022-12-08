@@ -20,3 +20,10 @@ or
 ```shell
 cargo test --bin dayXX
 ```
+
+## Adding a new solution
+1. Make a new branch from master. 
+2. Copy `template.rs` into `src/bin`. Rename it `dayXX.rs` as described above. 
+3. Replace all occurences of `dayXX` in the file with the actual day. 
+4. Solve it
+5. Create a pull request, make sure all tests pass. 
