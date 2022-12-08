@@ -16,7 +16,7 @@ fn main() {
 }
 
 // How many pairs, where one fully contains the other
-fn part_1(input: &Vec<String>) -> Result<usize, ParseIntError> {
+fn part_1(input: &[String]) -> Result<usize, ParseIntError> {
     let count: usize = input
         .iter()
         // Here I'm parsing every line with a new crate I found, scan_fmt
@@ -48,7 +48,7 @@ fn is_fully_contained(
 }
 
 // How many pairs where there is any overlap
-fn part_2(input: &Vec<String>) -> Result<usize, ParseIntError> {
+fn part_2(input: &[String]) -> Result<usize, ParseIntError> {
     let count: usize = input
         .iter()
         // Here I'm parsing every line with a new crate I found, scan_fmt
@@ -69,13 +69,14 @@ fn part_2(input: &Vec<String>) -> Result<usize, ParseIntError> {
     Ok(count)
 }
 
-fn has_any_overlap(    range_1_start: &i32,
+fn has_any_overlap(
+    range_1_start: &i32,
     range_1_end: &i32,
     range_2_start: &i32,
     range_2_end: &i32,
 ) -> bool {
-    (range_1_start <= range_2_start) && (range_1_end >= range_2_start) ||
-    (range_2_start <= range_1_start) && (range_2_end >= range_1_start)
+    (range_1_start <= range_2_start) && (range_1_end >= range_2_start)
+        || (range_2_start <= range_1_start) && (range_2_end >= range_1_start)
 }
 
 #[cfg(test)]
@@ -100,11 +101,11 @@ mod tests {
 
     #[test]
     fn test_has_any_overlap() {
-        let actual = has_any_overlap(&1,&2,&3,&4);
+        let actual = has_any_overlap(&1, &2, &3, &4);
         let expected = false;
         assert_eq!(actual, expected);
 
-        let actual = has_any_overlap(&1,&3,&3,&4);
+        let actual = has_any_overlap(&1, &3, &3, &4);
         let expected = true;
         assert_eq!(actual, expected)
     }
