@@ -64,7 +64,7 @@ impl RPS {
 
 
 fn match_score(rps: RPS, outcome: Outcome) -> i32 {
-    (rps as i32) + (outcome.clone() as i32)
+    (rps as i32) + (outcome as i32)
 }
 
 
