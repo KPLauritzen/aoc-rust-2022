@@ -1,9 +1,7 @@
 // https://adventofcode.com/2022/day/1
 
+use aoc_rust_2022::file_to_vec;
 use std::num::ParseIntError;
-use aoc_rust_2022::{file_to_vec};
-
-
 
 fn main() {
     let filename = "input/day01.txt";
@@ -13,7 +11,6 @@ fn main() {
 
     let part_2_result = part_2(&input).unwrap();
     println!("Part 2: {}", part_2_result);
-
 }
 
 fn get_total_calories(input: &Vec<String>) -> Result<Vec<i32>, ParseIntError> {
@@ -27,14 +24,13 @@ fn get_total_calories(input: &Vec<String>) -> Result<Vec<i32>, ParseIntError> {
             cal_count = 0
         }
     }
-    
+
     // Hack to get the last line
     if cal_count != 0 {
         elves.push(cal_count);
     };
     Ok(elves)
 }
-
 
 fn part_1(input: &Vec<String>) -> Result<i32, ParseIntError> {
     let elves = get_total_calories(input)?;
@@ -62,12 +58,12 @@ mod tests {
         assert_eq!(result, 24000);
     }
 
-        // Part 2
-        #[test]
-        fn part_2_sample_input() {
-            let filename = "input/day01_sample.txt";
-            let input = file_to_vec(filename).unwrap();
-            let result = part_2(&input).unwrap();
-            assert_eq!(result, 45000);
-        }
+    // Part 2
+    #[test]
+    fn part_2_sample_input() {
+        let filename = "input/day01_sample.txt";
+        let input = file_to_vec(filename).unwrap();
+        let result = part_2(&input).unwrap();
+        assert_eq!(result, 45000);
+    }
 }
