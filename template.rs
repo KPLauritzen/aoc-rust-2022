@@ -15,11 +15,11 @@ fn main() {
 }
 
 
-fn part_1(input: &Vec<String>) -> Result<i32, ParseIntError> {
+fn part_1(input: &[String]) -> Result<i32, ParseIntError> {
     todo!()    
 }
 
-fn part_2(input: &Vec<String>) -> Result<i32, ParseIntError> {
+fn part_2(input:&[String]) -> Result<i32, ParseIntError> {
     todo!()    
 }
 
