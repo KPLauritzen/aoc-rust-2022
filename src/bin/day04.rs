@@ -2,8 +2,7 @@
 
 use aoc_rust_2022::file_to_vec;
 use std::num::ParseIntError;
-#[macro_use]
-extern crate scan_fmt;
+use scan_fmt::scan_fmt;
 
 fn main() {
     let filename = "input/day04.txt";

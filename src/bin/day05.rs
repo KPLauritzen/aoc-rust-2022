@@ -1,10 +1,10 @@
 // https://adventofcode.com/2022/day/5
+
 use aoc_rust_2022::file_to_vec;
 use std::num::ParseIntError;
-#[macro_use]
-extern crate scan_fmt;
-
+use scan_fmt::scan_fmt;
 const N_CHARS_PER_STACK: usize = 4;
+
 
 fn main() {
     let filename = "input/day05.txt";
