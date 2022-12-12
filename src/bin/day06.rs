@@ -37,7 +37,7 @@ fn is_all_unique(slice: &str) -> bool {
     n_chars == n_unique_chars
 }
 
-fn part_2(input:&[String]) -> Result<usize, ParseIntError> {
+fn part_2(input: &[String]) -> Result<usize, ParseIntError> {
     let line = input.first().unwrap(); // Input is a single line
     let index = get_first_index_with_all_unique(line, START_OF_MESSAGE_LENGTH);
     Ok(index)
