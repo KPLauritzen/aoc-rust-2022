@@ -4,7 +4,7 @@ use aoc_rust_2022::file_to_vec;
 use std::num::ParseIntError;
 
 #[derive(PartialEq, Debug, Clone)]
-enum RPS {
+enum Throw {
     Rock = 1,
     Paper = 2,
     Scissors = 3,
@@ -16,45 +16,45 @@ enum Outcome {
     Draw = 3,
 }
 
-impl RPS {
-    fn get_outcome_against(&self, other: RPS) -> Outcome {
+impl Throw {
+    fn get_outcome_against(&self, other: Throw) -> Outcome {
         match self {
-            RPS::Rock => match other {
-                RPS::Rock => Outcome::Draw,
-                RPS::Paper => Outcome::Loss,
-                RPS::Scissors => Outcome::Win,
+            Throw::Rock => match other {
+                Throw::Rock => Outcome::Draw,
+                Throw::Paper => Outcome::Loss,
+                Throw::Scissors => Outcome::Win,
             },
-            RPS::Paper => match other {
-                RPS::Rock => Outcome::Win,
-                RPS::Paper => Outcome::Draw,
-                RPS::Scissors => Outcome::Loss,
+            Throw::Paper => match other {
+                Throw::Rock => Outcome::Win,
+                Throw::Paper => Outcome::Draw,
+                Throw::Scissors => Outcome::Loss,
             },
-            RPS::Scissors => match other {
-                RPS::Rock => Outcome::Loss,
-                RPS::Paper => Outcome::Win,
-                RPS::Scissors => Outcome::Draw,
+            Throw::Scissors => match other {
+                Throw::Rock => Outcome::Loss,
+                Throw::Paper => Outcome::Win,
+                Throw::Scissors => Outcome::Draw,
             },
         }
     }
 
-    fn get_needed_move(&self, outcome: Outcome) -> RPS {
+    fn get_needed_move(&self, outcome: Outcome) -> Throw {
         match (self, outcome) {
-            (RPS::Rock, Outcome::Win) => RPS::Paper,
-            (RPS::Rock, Outcome::Loss) => RPS::Scissors,
-            (RPS::Rock, Outcome::Draw) => RPS::Rock,
+            (Throw::Rock, Outcome::Win) => Throw::Paper,
+            (Throw::Rock, Outcome::Loss) => Throw::Scissors,
+            (Throw::Rock, Outcome::Draw) => Throw::Rock,
 
-            (RPS::Paper, Outcome::Win) => RPS::Scissors,
-            (RPS::Paper, Outcome::Loss) => RPS::Rock,
-            (RPS::Paper, Outcome::Draw) => RPS::Paper,
+            (Throw::Paper, Outcome::Win) => Throw::Scissors,
+            (Throw::Paper, Outcome::Loss) => Throw::Rock,
+            (Throw::Paper, Outcome::Draw) => Throw::Paper,
 
-            (RPS::Scissors, Outcome::Win) => RPS::Rock,
-            (RPS::Scissors, Outcome::Loss) => RPS::Paper,
-            (RPS::Scissors, Outcome::Draw) => RPS::Scissors,
+            (Throw::Scissors, Outcome::Win) => Throw::Rock,
+            (Throw::Scissors, Outcome::Loss) => Throw::Paper,
+            (Throw::Scissors, Outcome::Draw) => Throw::Scissors,
         }
     }
 }
 
-fn match_score(rps: RPS, outcome: Outcome) -> i32 {
+fn match_score(rps: Throw, outcome: Outcome) -> i32 {
     (rps as i32) + (outcome as i32)
 }
 
@@ -68,22 +68,22 @@ fn main() {
     println!("Part 2: {}", part_2_result);
 }
 
-fn parse_moves(input: &Vec<String>) -> (Vec<RPS>, Vec<RPS>) {
-    let mut opp_moves: Vec<RPS> = Vec::new();
-    let mut my_moves: Vec<RPS> = Vec::new();
+fn parse_moves(input: &Vec<String>) -> (Vec<Throw>, Vec<Throw>) {
+    let mut opp_moves: Vec<Throw> = Vec::new();
+    let mut my_moves: Vec<Throw> = Vec::new();
     for line in input {
         let (opp_move, my_move) = line.split_once(' ').unwrap();
         match opp_move {
-            "A" => opp_moves.push(RPS::Rock),
-            "B" => opp_moves.push(RPS::Paper),
-            "C" => opp_moves.push(RPS::Scissors),
+            "A" => opp_moves.push(Throw::Rock),
+            "B" => opp_moves.push(Throw::Paper),
+            "C" => opp_moves.push(Throw::Scissors),
 
             _ => todo!(),
         }
         match my_move {
-            "X" => my_moves.push(RPS::Rock),
-            "Y" => my_moves.push(RPS::Paper),
-            "Z" => my_moves.push(RPS::Scissors),
+            "X" => my_moves.push(Throw::Rock),
+            "Y" => my_moves.push(Throw::Paper),
+            "Z" => my_moves.push(Throw::Scissors),
 
             _ => todo!(),
         }
@@ -102,15 +102,15 @@ fn part_1(input: &Vec<String>) -> Result<i32, ParseIntError> {
     Ok(running_score)
 }
 
-fn parse_moves_and_outcomes(input: &Vec<String>) -> (Vec<RPS>, Vec<Outcome>) {
-    let mut opp_moves: Vec<RPS> = Vec::new();
+fn parse_moves_and_outcomes(input: &Vec<String>) -> (Vec<Throw>, Vec<Outcome>) {
+    let mut opp_moves: Vec<Throw> = Vec::new();
     let mut outcomes: Vec<Outcome> = Vec::new();
     for line in input {
         let (opp_move, my_move) = line.split_once(' ').unwrap();
         match opp_move {
-            "A" => opp_moves.push(RPS::Rock),
-            "B" => opp_moves.push(RPS::Paper),
-            "C" => opp_moves.push(RPS::Scissors),
+            "A" => opp_moves.push(Throw::Rock),
+            "B" => opp_moves.push(Throw::Paper),
+            "C" => opp_moves.push(Throw::Scissors),
 
             _ => todo!(),
         }
@@ -156,7 +156,7 @@ mod tests {
 
     #[test]
     fn test_match_score_1() {
-        let rps = RPS::Paper;
+        let rps = Throw::Paper;
         let outcome = Outcome::Win;
         let actual_score = match_score(rps, outcome);
         assert_eq!(actual_score, 8)
@@ -164,7 +164,7 @@ mod tests {
 
     #[test]
     fn test_match_score_2() {
-        let rps = RPS::Rock;
+        let rps = Throw::Rock;
         let outcome = Outcome::Loss;
         let actual_score = match_score(rps, outcome);
         assert_eq!(actual_score, 1)
@@ -172,7 +172,7 @@ mod tests {
 
     #[test]
     fn test_match_score_3() {
-        let rps = RPS::Scissors;
+        let rps = Throw::Scissors;
         let outcome = Outcome::Draw;
         let actual_score = match_score(rps, outcome);
         assert_eq!(actual_score, 6)
@@ -181,15 +181,15 @@ mod tests {
     #[test]
     fn test_rps_ordering() {
         let expected_outcome = Outcome::Loss;
-        let actual_outcome = RPS::Rock.get_outcome_against(RPS::Paper);
+        let actual_outcome = Throw::Rock.get_outcome_against(Throw::Paper);
         assert_eq!(expected_outcome, actual_outcome);
 
         let expected_outcome = Outcome::Win;
-        let actual_outcome = RPS::Paper.get_outcome_against(RPS::Rock);
+        let actual_outcome = Throw::Paper.get_outcome_against(Throw::Rock);
         assert_eq!(expected_outcome, actual_outcome);
 
         let expected_outcome = Outcome::Draw;
-        let actual_outcome = RPS::Scissors.get_outcome_against(RPS::Scissors);
+        let actual_outcome = Throw::Scissors.get_outcome_against(Throw::Scissors);
         assert_eq!(expected_outcome, actual_outcome);
     }
 
@@ -197,8 +197,8 @@ mod tests {
     fn test_parsing_moves() {
         let filename = "input/day02_sample.txt";
         let input = file_to_vec(filename).unwrap();
-        let (opp_moves, my_moves) = parse_moves(&input);
-        assert_eq!(opp_moves, vec![RPS::Rock, RPS::Paper, RPS::Scissors]);
+        let (opp_moves, _my_moves) = parse_moves(&input);
+        assert_eq!(opp_moves, vec![Throw::Rock, Throw::Paper, Throw::Scissors]);
     }
 
     // Part 2
