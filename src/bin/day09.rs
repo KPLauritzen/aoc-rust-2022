@@ -112,24 +112,47 @@ fn move_tail(head_position: &Position, tail_position: &Position) -> Position {
     let diff = head_position.diff(tail_position);
     let Position { x, y } = diff;
     match (x, y) {
-        (-1..=1, -1..=1) => tail_position.clone(),
-        (2, y) => Position {
+        // X has a large positive difference
+        (2.., ..=-2) => Position {
             x: tail_position.x + 1,
-            y: tail_position.y + y,
+            y: tail_position.y -1,
         },
-        (-2, y) => Position {
-            x: tail_position.x - 1,
-            y: tail_position.y + y,
-        },
-        (x, 2) => Position {
-            x: tail_position.x + x,
+        (2.., 2..) => Position {
+            x: tail_position.x + 1,
             y: tail_position.y + 1,
         },
-        (x, -2) => Position {
-            x: tail_position.x + x,
-            y: tail_position.y - 1,
+        (2.., y) => Position {
+            x: tail_position.x + 1,
+            y: tail_position.y+ y,
         },
-        _ => todo!(),
+        // X has a large negative difference
+        (..=-2, ..=-2) => Position {
+            x: tail_position.x - 1,
+            y: tail_position.y -1,
+        },
+        (..=-2, 2..) => Position {
+            x: tail_position.x - 1,
+            y: tail_position.y + 1,
+        },
+        (..=-2, y) => Position {
+            x: tail_position.x - 1,
+            y: tail_position.y +y,
+        },
+        // X difference between -1 and 1
+        (x, ..=-2) => Position {
+            x: tail_position.x + x,
+            y: tail_position.y -1
+        },
+        (x, 2..) => Position {
+            x: tail_position.x + x,
+            y: tail_position.y +1
+        },
+        (-1..=1, -1..=1) => Position {
+            x: tail_position.x,
+            y: tail_position.y
+        },
+ 
+        
     }
 }
 
@@ -154,8 +177,27 @@ fn move_head(head_position: Position, single_move: SingleMove) -> Position {
     }
 }
 
-fn part_2(_input: &[String]) -> Result<i32> {
-    todo!()
+fn move_and_record_positions_long_rope(moves: Vec<SingleMove>) -> Vec<Position> {
+    let mut output = Vec::new();
+    let mut head_position = Position { x: 0, y: 0 };
+    let mut tail_positions = vec![Position { x: 0, y: 0 };9];
+    output.push(tail_positions[8].clone());
+    for m in moves {
+        head_position = move_head(head_position, m);
+        let mut tmp_head = head_position.clone();
+        for i in 0..9 {
+            tmp_head = move_tail(&tmp_head, &tail_positions[i]);
+            tail_positions[i] = tmp_head;
+        }
+        output.push(tail_positions[8].clone());
+    }
+    output
+}
+
+fn part_2(input: &[String]) -> Result<usize, ParseMoveError> {
+    let moves = parse_input_to_moves(input)?;
+    let positions: Vec<Position> = move_and_record_positions_long_rope(moves);
+    Ok(positions.into_iter().counts().len())
 }
 
 #[cfg(test)]
@@ -213,14 +255,9 @@ mod tests {
             Position{x:0, y:2}, // U, head at 0,3
             Position{x:0, y:2}, // R, head at 1,3
             Position{x:1, y:3}, // R, head at 2,3
-            Position{x:2, y:3}, // R
-
-
-            
+            Position{x:2, y:3}, // R, head at 3,3
         ];
-
-        assert_eq!(result, expected);
-
+        assert_eq!(expected, result);
     }
 
     // Part 2
@@ -229,6 +266,14 @@ mod tests {
         let filename = "input/day09_sample.txt";
         let input = file_to_vec(filename).unwrap();
         let result = part_2(&input).unwrap();
-        assert_eq!(result, 45000);
+        assert_eq!(result, 1);
     }
+
+    #[test]
+    fn part_2_larger_sample_input() {
+        let filename = "input/day09_sample_large.txt";
+        let input = file_to_vec(filename).unwrap();
+        let result = part_2(&input).unwrap();
+        assert_eq!(result, 36);
+}
 }
