@@ -72,7 +72,7 @@ fn create_dir_tree(input: &[String]) -> Vec<Dir> {
 fn update_sizes(current_dir_idx: usize, size: usize, mut tree: Vec<Dir>) -> Vec<Dir> {
     let mut update_idx = current_dir_idx;
     loop {
-        let mut current_dir = tree.get_mut(update_idx).unwrap();
+        let current_dir = tree.get_mut(update_idx).unwrap();
         current_dir.size += size;
         update_idx = current_dir.parent;
         // If we have updated the root node, stop

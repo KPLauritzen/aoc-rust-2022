@@ -7,7 +7,7 @@ use std::num::ParseIntError;
 pub fn file_to_vec(filename: &str) -> io::Result<Vec<String>> {
     let file_in = fs::File::open(filename)?;
     let file_reader = BufReader::new(file_in);
-    Ok(file_reader.lines().filter_map(io::Result::ok).collect())
+    Ok(file_reader.lines().map_while(io::Result::ok).collect())
 }
 
 pub fn string_to_int(input: &[String]) -> Result<Vec<i32>, ParseIntError> {

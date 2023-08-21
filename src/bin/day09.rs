@@ -9,7 +9,7 @@ struct Position {
     y: i32,
 }
 impl Position {
-    fn diff(self: &Self, other: &Self) -> Self {
+    fn diff(&self, other: &Self) -> Self {
         Position {
             x: self.x - other.x,
             y: self.y - other.y,
@@ -33,7 +33,7 @@ impl SingleMove {
             SingleMove {
                 direction: m.direction
             };
-            m.length.into()
+            m.length
         ]
     }
 }
@@ -50,7 +50,7 @@ struct ParseMoveError;
 impl FromStr for Move {
     type Err = ParseMoveError;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let (d, l) = s.split_once(" ").ok_or(ParseMoveError)?;
+        let (d, l) = s.split_once(' ').ok_or(ParseMoveError)?;
 
         let direction = match d {
             "U" => Direction::U,
@@ -61,8 +61,8 @@ impl FromStr for Move {
         };
         let length = l.parse().map_err(|_| ParseMoveError)?;
         Ok(Move {
-            direction: direction,
-            length: length,
+            direction,
+            length,
         })
     }
 }
@@ -89,8 +89,7 @@ fn parse_input_to_moves(input: &[String]) -> Result<Vec<SingleMove>, ParseMoveEr
         .collect();
     let single_moves: Vec<SingleMove> = moves
         .into_iter()
-        .map(|m| SingleMove::from_move(&m))
-        .flatten()
+        .flat_map(|m| SingleMove::from_move(&m))
         .collect();
     Ok(single_moves)
 }
@@ -99,11 +98,11 @@ fn move_and_record_positions(moves: Vec<SingleMove>) -> Vec<Position> {
     let mut output = Vec::new();
     let mut head_position = Position { x: 0, y: 0 };
     let mut tail_position = Position { x: 0, y: 0 };
-    output.push(tail_position.clone());
+    output.push(tail_position);
     for m in moves {
         head_position = move_head(head_position, m);
         tail_position = move_tail(&head_position, &tail_position);
-        output.push(tail_position.clone());
+        output.push(tail_position);
     }
     output
 }
@@ -179,15 +178,15 @@ fn move_and_record_positions_long_rope(moves: Vec<SingleMove>) -> Vec<Position> 
     let mut output = Vec::new();
     let mut head_position = Position { x: 0, y: 0 };
     let mut tail_positions = vec![Position { x: 0, y: 0 }; 9];
-    output.push(tail_positions[8].clone());
+    output.push(tail_positions[8]);
     for m in moves {
         head_position = move_head(head_position, m);
-        let mut tmp_head = head_position.clone();
+        let mut tmp_head = head_position;
         for i in 0..9 {
             tmp_head = move_tail(&tmp_head, &tail_positions[i]);
             tail_positions[i] = tmp_head;
         }
-        output.push(tail_positions[8].clone());
+        output.push(tail_positions[8]);
     }
     output
 }
