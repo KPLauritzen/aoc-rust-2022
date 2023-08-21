@@ -1,7 +1,5 @@
+use aoc_rust_2022::file_to_vec;
 use std::num::ParseIntError;
-use aoc_rust_2022::{file_to_vec};
-
-
 
 fn main() {
     let filename = "input/dayXX.txt";
@@ -11,16 +9,14 @@ fn main() {
 
     let part_2_result = part_2(&input).unwrap();
     println!("Part 2: {}", part_2_result);
-
 }
-
 
 fn part_1(input: &[String]) -> Result<i32, ParseIntError> {
-    todo!()    
+    todo!()
 }
 
-fn part_2(input:&[String]) -> Result<i32, ParseIntError> {
-    todo!()    
+fn part_2(input: &[String]) -> Result<i32, ParseIntError> {
+    todo!()
 }
 
 #[cfg(test)]
