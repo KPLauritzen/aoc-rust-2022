@@ -1,5 +1,5 @@
 use aoc_rust_2022::file_to_vec;
-use std::num::ParseIntError;
+use anyhow::Result;
 
 fn main() {
     let filename = "input/dayXX.txt";
@@ -11,11 +11,11 @@ fn main() {
     println!("Part 2: {}", part_2_result);
 }
 
-fn part_1(input: &[String]) -> Result<i32, ParseIntError> {
+fn part_1(input: &[String]) -> Result<i32> {
     todo!()
 }
 
-fn part_2(input: &[String]) -> Result<i32, ParseIntError> {
+fn part_2(input: &[String]) -> Result<i32> {
     todo!()
 }
 
