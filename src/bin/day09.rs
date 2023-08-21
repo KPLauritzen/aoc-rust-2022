@@ -60,10 +60,7 @@ impl FromStr for Move {
             _ => return Err(ParseMoveError),
         };
         let length = l.parse().map_err(|_| ParseMoveError)?;
-        Ok(Move {
-            direction,
-            length,
-        })
+        Ok(Move { direction, length })
     }
 }
 fn main() {
