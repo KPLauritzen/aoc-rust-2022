@@ -115,7 +115,7 @@ fn move_tail(head_position: &Position, tail_position: &Position) -> Position {
         // X has a large positive difference
         (2.., ..=-2) => Position {
             x: tail_position.x + 1,
-            y: tail_position.y -1,
+            y: tail_position.y - 1,
         },
         (2.., 2..) => Position {
             x: tail_position.x + 1,
@@ -123,12 +123,12 @@ fn move_tail(head_position: &Position, tail_position: &Position) -> Position {
         },
         (2.., y) => Position {
             x: tail_position.x + 1,
-            y: tail_position.y+ y,
+            y: tail_position.y + y,
         },
         // X has a large negative difference
         (..=-2, ..=-2) => Position {
             x: tail_position.x - 1,
-            y: tail_position.y -1,
+            y: tail_position.y - 1,
         },
         (..=-2, 2..) => Position {
             x: tail_position.x - 1,
@@ -136,23 +136,21 @@ fn move_tail(head_position: &Position, tail_position: &Position) -> Position {
         },
         (..=-2, y) => Position {
             x: tail_position.x - 1,
-            y: tail_position.y +y,
+            y: tail_position.y + y,
         },
         // X difference between -1 and 1
         (x, ..=-2) => Position {
             x: tail_position.x + x,
-            y: tail_position.y -1
+            y: tail_position.y - 1,
         },
         (x, 2..) => Position {
             x: tail_position.x + x,
-            y: tail_position.y +1
+            y: tail_position.y + 1,
         },
         (-1..=1, -1..=1) => Position {
             x: tail_position.x,
-            y: tail_position.y
+            y: tail_position.y,
         },
- 
-        
     }
 }
 
@@ -180,7 +178,7 @@ fn move_head(head_position: Position, single_move: SingleMove) -> Position {
 fn move_and_record_positions_long_rope(moves: Vec<SingleMove>) -> Vec<Position> {
     let mut output = Vec::new();
     let mut head_position = Position { x: 0, y: 0 };
-    let mut tail_positions = vec![Position { x: 0, y: 0 };9];
+    let mut tail_positions = vec![Position { x: 0, y: 0 }; 9];
     output.push(tail_positions[8].clone());
     for m in moves {
         head_position = move_head(head_position, m);
@@ -234,28 +232,38 @@ mod tests {
     }
 
     #[test]
-    fn test_move_tail( ) {
-        let head_pos = Position {x:10, y:12};
-        let tail_pos = Position {x:10, y:10};
+    fn test_move_tail() {
+        let head_pos = Position { x: 10, y: 12 };
+        let tail_pos = Position { x: 10, y: 10 };
         let result = move_tail(&head_pos, &tail_pos);
-        let expected = Position{x:10, y:11};
+        let expected = Position { x: 10, y: 11 };
 
         assert_eq!(expected, result);
     }
 
     #[test]
     fn test_move_and_record_positions() {
-        let mut input = vec![SingleMove{direction: Direction::U}; 3];
-        input.extend(vec![SingleMove{direction: Direction::R}; 3]);
+        let mut input = vec![
+            SingleMove {
+                direction: Direction::U
+            };
+            3
+        ];
+        input.extend(vec![
+            SingleMove {
+                direction: Direction::R
+            };
+            3
+        ]);
         let result = move_and_record_positions(input);
         let expected = vec![
-            Position{x:0, y:0}, // initial
-            Position{x:0, y:0}, // U, head at 0,1
-            Position{x:0, y:1}, // U, head at 0,2
-            Position{x:0, y:2}, // U, head at 0,3
-            Position{x:0, y:2}, // R, head at 1,3
-            Position{x:1, y:3}, // R, head at 2,3
-            Position{x:2, y:3}, // R, head at 3,3
+            Position { x: 0, y: 0 }, // initial
+            Position { x: 0, y: 0 }, // U, head at 0,1
+            Position { x: 0, y: 1 }, // U, head at 0,2
+            Position { x: 0, y: 2 }, // U, head at 0,3
+            Position { x: 0, y: 2 }, // R, head at 1,3
+            Position { x: 1, y: 3 }, // R, head at 2,3
+            Position { x: 2, y: 3 }, // R, head at 3,3
         ];
         assert_eq!(expected, result);
     }
@@ -275,5 +283,5 @@ mod tests {
         let input = file_to_vec(filename).unwrap();
         let result = part_2(&input).unwrap();
         assert_eq!(result, 36);
-}
+    }
 }
